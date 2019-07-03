@@ -1,0 +1,27 @@
+//boost, socket.io, socketio-cpp, nodejs, express-static
+
+//Download node.js
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+//Download express
+npm install express --save
+
+//Download socket.io (javascript)
+npm install socket.io --save
+
+//Install git
+sudo apt install git
+
+//Clone socket.io cpp client code from github
+git clone --recurse-submodules https://github.com/socketio/socket.io-client-cpp.git
+
+//Boost
+sudo apt-get install libboost-all-dev
+
+//In the main CMakeList.txt file include following definitions
+add_definitions(-D__BOOST_ROOT__="/usr/include/boost")
+add_definitions(-D__BOOST_VER__="1.62.0")
+
+//get cmake
+sudo apt-get install cmake
