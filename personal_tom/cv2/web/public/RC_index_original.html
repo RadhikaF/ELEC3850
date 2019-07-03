@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RC User Interface</title>
+<meta name="viewport" content = "height = device-height, width = 360, initial-scale=1.0, minimum-scale=1.0, user-scalable = no" />
+<script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript" src="/webiopi.js"></script>
+<script type="text/javascript">
+	function init() {
+	}
+	function Stop() {
+	webiopi().callMacro("ButtonStop");
+	}
+	function Forward() {
+	webiopi().callMacro("ButtonForward");
+	}
+	function Reverse() {
+	webiopi().callMacro("ButtonReverse");
+	}
+	function TurnLeft() {
+	webiopi().callMacro("ButtonTurnLeft");
+	}
+	function TurnRight() {
+	webiopi().callMacro("ButtonTurnRight");
+	}
+	function FlashAll() {
+	webiopi().callMacro("ButtonFlashAll");
+	}	
+	webiopi().ready(init);
+  </script>
+<style>
+html, body {
+	height:100%;
+	margin:0;
+}
+
+.main {
+	height:100%;
+	width:100%;
+}
+
+.container {
+	display:table;
+	height:100%;
+	margin:0 auto;
+	width: 360px;
+}
+
+.center {
+	display:table-cell;
+	height:480px;
+	width: 360px;
+	vertical-align:middle;
+}
+
+.arrow-top, .arrow-down {
+	clear:both;
+	text-align:center;
+	width:100%;
+}
+
+.middle-row {
+	float: left;
+	margin:20px 0;
+	width:360px;
+}
+
+.arrow-left {
+	float: left;
+	margin-right:7%;
+}
+
+.stop {
+	float: left;
+}
+
+.arrow-right {
+	float: left;
+	margin-left:7%;
+}
+
+a {
+ opacity:0.80;
+}
+
+a:hover {
+ opacity:1;
+}
+
+</style>
+</head>
+
+<body>
+<div style="text-align:center">
+  <h1 style = "font-size:5vw">Autonomous City Vehicle UI</h1>
+</div>
+<div class="main">
+	<div class="container">
+    	<div class="center">
+            <div class="arrow-top" onmousedown="Forward()"><a href="#"><img src="Red_Arrow_Up.png" alt="Up"></a></div>
+            <div class="middle-row">
+                <div class="arrow-left" onmousedown="TurnLeft()"><a href="#"><img src="Red_Arrow_Left.png" alt="Left"></a></div>
+                <div class="stop" onmousedown="Stop()"><a href="#"><img src="Stop.png" alt="Stop"></a></div>
+                <div class="arrow-right" onmousedown="TurnRight()"><a href="#"><img src="Red_Arrow_Right.png" alt="Right"></a></div>
+            </div>
+            <div class="arrow-down" onmousedown="Reverse()"><a href="#"><img src="Red_Arrow_Down.png" alt="Down"></a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

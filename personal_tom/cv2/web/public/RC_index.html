@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RC User Interface</title>
+<meta name="viewport" content = "height = device-height, width = 360, initial-scale=1.0, minimum-scale=1.0, user-scalable = no" />
+<style>
+html, body {
+	height:100%;
+	margin:0;
+}
+
+.main {
+	height:100%;
+	width:100%;
+}
+
+.container {
+	display:table;
+	height:100%;
+	margin:0 auto;
+	width: 360px;
+}
+
+.center {
+ -webkit-user-select: none !important; 
+	display:table-cell;
+	height:100px;
+	width: 360px;
+	vertical-align:middle;
+}
+
+.arrow-top, .arrow-down {
+	clear:both;
+	text-align:center;
+	width:100%;
+}
+
+.middle-row {
+ -webkit-user-select: none !important; 
+	float: left;
+	margin:20px 0;
+	width:360px;
+}
+
+.arrow-left {
+	float: left;
+	margin-right:7%;
+}
+
+.stop {
+	float: left;
+}
+
+.arrow-right {
+	float: left;
+	margin-left:7%;
+}
+
+a {
+ opacity:0.80;
+}
+
+a:hover {
+ opacity:1;
+}
+
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+
+body { -webkit-touch-callout: none !important; }
+a { -webkit-user-select: none !important; }
+
+</style>
+</head>
+
+<body>
+<div style="text-align:center">
+  <h1 style = "font-size:5vw">Autonomous City Vehicle UI</h1>
+  <img id="img" width="50%" style="border:5px solid black">
+<div class="main">
+	<div class="container">
+    	<div class="center">
+            <div id = "up" class="arrow-top" onclick="Button('up')"><a href="#"><img src="Red_Arrow_Up.png" alt="Up"></a></div>
+            <div class="middle-row">
+                <div id = "left" class="arrow-left" onclick="Button('left')"><a href="#"><img src="Red_Arrow_Left.png" alt="Left"></a></div>
+                <div id = "stop" class="stop" onclick="Button('stop')"><a href="#"><img src="Stop.png" alt="Stop"></a></div>
+                <div id = "right" class="arrow-right" onclick="Button('right')"><a href="#"><img src="Red_Arrow_Right.png" alt="Right"></a></div>
+            </div>
+            <div id = "down" class="arrow-down" onclick="Button('reverse')"><a href="#"><img src="Red_Arrow_Down.png" alt="Down"></a></div>
+        </div>
+    </div>
+</div>
+
+<form id="frm1" action="#">
+  PID 1: <input type="text" name="PID1"><br>
+  PID 2: <input type="text" name="PID2"><br>
+  PID 3: <input type="text" name="PID3"><br>
+  PID 4: <input type="text" name="PID4"><br><br>
+  <input type="button" onclick="PID()" value="Submit"><br><br>
+</form>
+
+<label class="switch">
+  <input type="checkbox" id="vehicleMode" onclick="ToggleMode()">
+  <span class="slider round"></span>
+</label>
+<p id="Vehicle_Mode">Mode: Manual </p>
+
+<label class="switch">
+  <input type="checkbox" id="xbox" onclick="ToggleXbox()">
+  <span class="slider round"></span>
+</label>
+<p id="Xbox_mode">Xbox: Off </p>
+
+<label class="switch">
+  <input type="checkbox" id="camera" onclick="ToggleCamera()">
+  <span class="slider round"></span>
+</label>
+<p id="CamMode">Camera: Off </p>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+var item = document.querySelector("#up");
+  item.addEventListener("touchstart", function(){
+	button = "up";
+	console.log(button);
+	timer();
+	event.preventDefault();
+  }, false);
+  item.addEventListener("touchend", handleEnd, false);
+  
+var item = document.querySelector("#right");
+  item.addEventListener("touchstart", function(){
+	button = "right";
+	console.log(button);
+	timer();
+	event.preventDefault();
+  }, false);
+  item.addEventListener("touchend", handleEnd, false);
+
+var item = document.querySelector("#left");
+  item.addEventListener("touchstart", function(){
+	button = "left";
+	console.log(button);
+	timer();
+	event.preventDefault();
+  }, false);
+  item.addEventListener("touchend", handleEnd, false);  
+  
+  var item = document.querySelector("#down");
+  item.addEventListener("touchstart", function(){
+	button = "reverse";
+	console.log(button);
+	timer();
+	event.preventDefault();
+  }, false);
+  item.addEventListener("touchend", handleEnd, false);
+  
+  var item = document.querySelector("#stop");
+  item.addEventListener("touchstart", function(){
+	button = "stop";
+	console.log(button);
+	timer();
+	event.preventDefault();
+  }, false);
+  item.addEventListener("touchend", handleEnd, false);
+ 
+  //item.addEventListener("mousedown", pressingDown, false);
+
+  var timerID;
+  var counter = 0;
+  var pressHoldDuration = 60;
+  
+  function handleEnd(e) {
+      // Stop the timer
+      clearInterval(timerID);
+      counter = 0;
+ 
+      console.log("Not pressing!");
+    }
+	
+	function timer() {
+      console.log(button);
+	  
+	  if ((currentMode == false) && (XboxMode == false)){
+		socket.emit('clicked', button);
+	    timerID = setTimeout(timer, 200);
+        counter++;
+	}
+    }
+	var socket = io.connect();
+	var button = 0;
+	var left, right;
+	var currentMode = false;
+	var cameraMode = false;
+	var XboxMode = false;
+
+	function ToggleMode(){
+		var checkbox = document.getElementById("vehicleMode");
+		if (checkbox.checked == true){
+			document.getElementById("Vehicle_Mode").innerHTML = 'Mode: Autonomous';
+		}
+		else {
+			document.getElementById("Vehicle_Mode").innerHTML = 'Mode: Manual';
+		}
+		currentMode = checkbox.checked;
+		socket.emit('ToggleMode', currentMode);
+	}
+
+	function ToggleXbox(){
+		var checkbox = document.getElementById("xbox");
+		if (checkbox.checked == true){
+			document.getElementById("Xbox_mode").innerHTML = 'Xbox: On';
+		}
+		else {
+			document.getElementById("Xbox_mode").innerHTML = 'Xbox: Off';
+		}
+		XboxMode = checkbox.checked;
+		socket.emit('XboxMode', XboxMode);
+	}
+		function ToggleCamera(){
+		var checkbox = document.getElementById("camera");
+		if (checkbox.checked == true){
+			document.getElementById("CamMode").innerHTML = 'Camera: On';
+		}
+		else {
+			document.getElementById("CamMode").innerHTML = 'Camera: Off';
+		}
+		cameraMode = checkbox.checked;
+		socket.emit('ToggleCamMode', cameraMode);
+	}
+	
+	function Button(data) {
+	event.preventDefault();
+		if ((currentMode == false) && (XboxMode == false)){
+		  socket.emit('clicked', data);
+		
+		  button = data;
+		}
+	}
+
+	socket.on('image', function(data){
+		console.log( "Image received :", data.image);
+		document.getElementById("img").src = "data:image/png;base64," + data.buffer;
+	});
+
+	function PID() {
+		console.log("in PID");
+		var x = document.getElementById("frm1");
+		var PIDarr = ["", "", "", ""];
+		var check = true;
+		var i;
+		for (i = 0; i < x.length -1 ;i++) {
+			PIDarr[i] = x.elements[i].value; 
+			if (isNaN(PIDarr[i]) || PIDarr[i] == ""){
+				check = false;
+			}
+		}
+		if (check){
+			check = true;
+			socket.emit('PID', {PID1: PIDarr[0], PID2: PIDarr[1], PID3: PIDarr[2], PID4: PIDarr[3]});
+		}
+	}
+
+</script>
+</body>
+</html>
