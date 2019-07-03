@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/pca9685.h
+
+/home/pi/Elec3850/personal_tom/cv2/src/pca9685.c
+wiringPi.h
+-
+wiringPiI2C.h
+-
+pca9685.h
+/home/pi/Elec3850/personal_tom/cv2/src/pca9685.h
+
