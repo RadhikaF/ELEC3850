@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/nodetest/project_template_cpp_edit/src/myFile.cpp
+stdio.h
+-
+header.h
+/home/pi/nodetest/project_template_cpp_edit/src/header.h
+
